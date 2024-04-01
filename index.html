@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <script src="./script.js" defer></script>
+    <title>Weather App</title>
+</head>
+<body>
+    <div class="master-container">
+        <div class="input-container">
+            <input type="text" name="cityInput" id="cityInput" placeholder="Enter city name..">
+            <button class="searchButton" onclick="getWeather()">Weather please!</button>
+            <div class="cityInfo">
+                <h3 id="city">Vancouver</h3>
+                <h4 id="region">British Columbia</h4>
+                <h4 id="country">Canada</h4>
+            </div>
+            <div class="weatherInfo">
+                <img src="" id="weatherIcon">
+                <p class="currentTemp">Current temp: 11 C</p>
+                <p class="feelsLike">Feels like: 10 C</p>
+                <label class="switch">
+                    <input type="checkbox" onchange="tempCheck()">
+                    <span class="tempSlider">F C</span>
+                  </label>
+            </div>
+
+            <!-- MAKE 3 IDENTICAL WEATHER CARDS (CAN HAVE ICONS, TEMPS, SUNRISE SUNSET, whatever) for each day of the 3 days of forecasting (starts at 0 like arrays, so days 0, 1, and 2) -->
+        </div>
+    </div>
+</body>
+</html>
