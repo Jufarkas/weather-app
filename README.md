@@ -1,2 +1,2 @@
 # weather-app
-Simple weather app; fetch data using weatherapi
+Simple weather app; fetch data using free weatherapi
