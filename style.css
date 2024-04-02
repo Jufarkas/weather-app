@@ -6,6 +6,8 @@ body {
 
 .master-container {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
 }
 
@@ -44,10 +46,11 @@ input {
 }
 
 button {
+    margin-top: 5px;
     margin-bottom: 20px;
     height: 45px;
     font-size: 1.3em;
-    border: 1px solid green;
+    border: 1px solid blue;
     cursor: pointer;
     border-radius: 10px;
 }
@@ -77,6 +80,7 @@ button:active {
 
 /* The slider */
 .tempSlider {
+    user-select: none;
     font-size: 2.4em;
     display: flex;
     justify-content: space-evenly;
@@ -116,4 +120,33 @@ input:checked + .tempSlider:before {
     -webkit-transform: translateX(40px);
     -ms-transform: translateX(40px);
     transform: translateX(40px);
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.card {
+    width: 280px;
+    height: 380px;
+    background-color: #2196F3;
+    display: grid;
+    grid-template: 1fr 2fr 1fr 3fr / 1fr 1fr;
+}
+
+
+.footer {
+    margin-top: 10px;
+    display: grid;
+    grid-template: 1fr / 1fr 1fr;
+    width: 260px;
+    align-items: center;
+    justify-items: center;
+}
+
+.footer p {
+    text-align: center;
 }
