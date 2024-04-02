@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ropa+Sans:ital@0;1&family=Rubik:ital,wght@0,300..900;1,300..900" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
     <script src="./script.js" defer></script>
     <title>Weather App</title>
@@ -22,22 +25,45 @@
                 <p class="currentTemp">Current temp: 11 C</p>
                 <p class="feelsLike">Feels like: 10 C</p>
                 <label class="switch">
-                    <input type="checkbox" onchange="tempCheck()">
+                    <input type="checkbox" onchange="tempChange()">
                     <span class="tempSlider">F C</span>
                   </label>
             </div>
-
-            <!-- MAKE 3 IDENTICAL WEATHER CARDS (CAN HAVE ICONS, TEMPS, SUNRISE SUNSET, whatever) for each day of the 3 days of forecasting (starts at 0 like arrays, so days 0, 1, and 2) -->
         </div>
-        <div class="card-container">
-            <div class="card">
-                <img src="" alt="">
-                <p class="temperature"></p>
+        <div class="card-container hidden">
+            <div class="card" id="cardOne">
+                <h4 class="cardDate"></h4>
+                <img src="" alt="" class="cardIcon iconOne">
+                <h4 class="weatherCondition"></h4>
+                <p class="cardTempMax"></p>
+                <p class="cardTempMin"></p>
+                <img src="./images/sunrise-sunset.png" alt="icon showing sunrise and sunset" class="sunriseIcon">
+                <p class="sunrise"></p>
+                <p class="sunset"></p>
+            </div>
+            <div class="card" id="cardTwo">
+                <h4 class="cardDate"></h4>
+                <img src="" alt="" class="cardIcon iconTwo">
+                <h4 class="weatherCondition"></h4>
+                <p class="cardTempMax"></p>
+                <p class="cardTempMin"></p>
+                <img src="./images/sunrise-sunset.png" alt="icon showing sunrise and sunset" class="sunriseIcon">
+                <p class="sunrise"></p>
+                <p class="sunset"></p>
+            </div>
+            <div class="card" id="cardThree">
+                <h4 class="cardDate"></h4>
+                <img src="" alt="" class="cardIcon iconThree">
+                <h4 class="weatherCondition"></h4>
+                <p class="cardTempMax"></p>
+                <p class="cardTempMin"></p>
+                <img src="./images/sunrise-sunset.png" alt="icon showing sunrise and sunset" class="sunriseIcon">
+                <p class="sunrise"></p>
+                <p class="sunset"></p>
             </div>
         </div>
         <div class="footer">
             <p>Powered by <a href="https://www.weatherapi.com/" title="Free Weather API">WeatherAPI.com</a></p><a href="https://www.weatherapi.com/" title="Free Weather API"><img src='https://cdn.weatherapi.com/v4/images/weatherapi_logo.png' alt="Weather data by WeatherAPI.com"></a>
-           
         </div>
     </div>
 </body>
