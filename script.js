@@ -1,39 +1,23 @@
-const weatherAPI = "535e03dc848a467dacb175640242803";
-const userCity = document.getElementById('cityInput');
-const city = document.getElementById('city');
-const region = document.getElementById('region');
-const country = document.getElementById('country');
-const weatherIcon = document.getElementById('weatherIcon');
 const currentTemp = document.querySelector('.currentTemp');
 const feelsLike = document.querySelector('.feelsLike');
-let condition;
-let isDay;
-let tempF;
-let feelsLikeF;
-let tempC;
-let feelsLikeC;
-
+let forecast;
+let currentData;
 
 async function getWeather(){
-    const weatherFetch = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${weatherAPI}&q=${userCity.value}&days=3`, {
+    const weatherAPI = "535e03dc848a467dacb175640242803";
+    const cityInput = document.getElementById('cityInput');
+    const weatherFetch = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${weatherAPI}&q=${cityInput.value}&days=4`, {
         mode: 'cors'
-    }) // grabs 3 days worth of weather
+    }) // grabs 3 days worth of weather (currently set to 4 days, as the first day it grabs is the current date, not sure if after the extended trail is over this will stop and it technically only does 2 days in advance)
     
     weatherFetch.json()
     .then(data => {
         console.log(data)
-        city.textContent = data.location.name;
-        region.textContent = data.location.region;
-        country.textContent = data.location.country;
-        currentTemp.textContent = `Current temperature: ${data.current.temp_c} C`;
-        feelsLike.textContent = `Feels like: ${data.current.feelslike_c} C`;
-        tempC = data.current.temp_c;
-        feelsLikeC = data.current.feelslike_c;
-        tempF = data.current.temp_f;
-        feelsLikeF = data.current.feelslike_f;
-        condition = data.current.condition.text;
-        isDay = data.current.is_day;
-        checkCondition(condition, isDay);
+        let currentLocation = data.location;
+        forecast = data.forecast.forecastday;
+        currentData = data.current;
+        populateMainDisplay(currentLocation);
+        populateForecastCards();
         // console.log(data.location.name)
         // console.log(data.location.region)
         // console.log(data.location.country)
@@ -44,7 +28,123 @@ async function getWeather(){
         // console.log("current temp is " + data.current.temp_f + "F") // current temp in F
         // console.log("feels like " + data.current.feelslike_f + "F") // 'feels like' in F
     });
-}
+};
+
+function populateMainDisplay(currentLocation){
+    const city = document.getElementById('city');
+    const region = document.getElementById('region');
+    const country = document.getElementById('country');
+    const weatherIcon = document.getElementById('weatherIcon');
+    const condition = currentData.condition.text.trim();
+    city.textContent = currentLocation.name;
+    region.textContent = currentLocation.region;
+    country.textContent = currentLocation.country;
+    currentTemp.textContent = `Current temperature: ${currentData.temp_c} C`;
+    feelsLike.textContent = `Feels like: ${currentData.feelslike_c} C`;
+    getMainIcon(condition, weatherIcon);
+};
+
+function populateForecastCards(){
+    const cardContainer = document.querySelector('.card-container');
+    cardContainer.classList.remove('hidden');
+    setCardIcons();
+    setCardTempsC();
+    setCardDates();
+    setCardCondition();
+    setSunrise();
+    setSunset();
+};
+
+function setCardIcons(){
+    let iconCounter = 1;
+    const cardIcons = document.querySelectorAll('.cardIcon');
+    cardIcons.forEach(icon => {
+        const iconCondition = forecast[iconCounter].day.condition.text.trim();
+        getForecastIcons(iconCondition, icon);
+        iconCounter++;
+    })
+};
+
+function setCardTempsC() {
+    let maxTempCounterC = 1;
+    const cardTempMax = document.querySelectorAll('.cardTempMax');
+    cardTempMax.forEach(maxTemp => {
+        const maxTempC = forecast[maxTempCounterC].day.maxtemp_c;
+        maxTemp.textContent = `${maxTempC} \u00B0 c`; // '\u00B0' creates the degree symbol
+        maxTempCounterC++;
+    })
+
+    let minTempCounterC = 1;
+    const cardTempMin = document.querySelectorAll('.cardTempMin');
+    cardTempMin.forEach(minTemp => {
+        const minTempC = forecast[minTempCounterC].day.mintemp_c;
+        minTemp.textContent = `Low: ${minTempC} \u00B0 c`;
+        minTempCounterC++;
+    })
+};
+
+function setCardTempsF(){
+    let maxTempCounterF = 1;
+    const cardTemp = document.querySelectorAll('.cardTempMax');
+    cardTemp.forEach(temp => {
+        const maxTempF = forecast[maxTempCounterF].day.maxtemp_f;
+        temp.textContent = `${maxTempF} \u00B0 f`; // '\u00B0' creates the degree symbol
+        maxTempCounterF++;
+    })
+
+    let minTempCounterF = 1;
+    const cardTempMin = document.querySelectorAll('.cardTempMin');
+    cardTempMin.forEach(minTemp => {
+        const minTempF = forecast[minTempCounterF].day.mintemp_f;
+        minTemp.textContent = `Low: ${minTempF} \u00B0 f`;
+        minTempCounterF++;
+    })
+};
+
+function setCardDates() {
+    let dateCounter = 1;
+    const cardDate = document.querySelectorAll('.cardDate');
+    cardDate.forEach(date => {
+        const forecastDate = forecast[dateCounter].date;
+        date.textContent = forecastDate;
+        dateCounter++;
+    })
+};
+
+function setCardCondition(){
+    let conditionCounter = 1;
+    const cardCondition = document.querySelectorAll('.weatherCondition');
+    cardCondition.forEach(weatherDescription => {
+        const weatherCondition = forecast[conditionCounter].day.condition.text.trim();
+        weatherDescription.textContent = weatherCondition;
+        conditionCounter++;
+    })
+};
+
+function setSunrise(){
+    let sunriseCounter = 1;
+    const sunriseField = document.querySelectorAll('.sunrise');
+    sunriseField.forEach(field => {
+        const sunriseTime = forecast[sunriseCounter].astro.sunrise;
+        field.innerText =
+        `Sunrise:
+        ${sunriseTime}`;
+        sunriseCounter++;
+    })
+};
+
+function setSunset(){
+    let sunsetCounter = 1;
+    const sunsetField = document.querySelectorAll('.sunset');
+    sunsetField.forEach(field => {
+        const sunsetTime = forecast[sunsetCounter].astro.sunset;
+        field.innerText =
+        `Sunset:
+        ${sunsetTime}`;
+        sunsetCounter++;
+    })
+};
+
 
 // possible text for "data.current.condition.text"
 const weatherConditions = [
@@ -80,8 +180,8 @@ const weatherConditions = [
     },
     {
         "code" : 1063,
-        "day" : "Patchy rain possible",
-        "night" : "Patchy rain possible",
+        "day" : "Patchy rain nearby",
+        "night" : "Patchy rain nearby",
         "icon" : 176
     },
     {
@@ -336,33 +436,55 @@ const weatherConditions = [
         "night" : "Moderate or heavy snow with thunder",
         "icon" : 395
     }
-]
+];
 
-function checkCondition(condition, isDay) {
+function getMainIcon(condition, iconSource) {
     weatherConditions.forEach(item => {
         const icon = item.icon
-        if (item.day === condition && isDay === 1){
-            weatherIcon.src = `./images/day/${icon}.png`
+        if (item.day === condition && currentData.is_day === 1){
+            iconSource.src = `./images/day/${icon}.png`;
             console.log(item.icon);
             return;
-        } else if (item.night === condition && isDay === 0){
-            weatherIcon.src = `./images/night/${icon}.png`
+        } else if (item.night === condition && currentData.is_day === 0){
+            iconSource.src = `./images/night/${icon}.png`;
             console.log(item.icon);
             return;
         }
     })
-}
+};
+
+function getForecastIcons(condition, iconSource) {
+    weatherConditions.forEach(item => {
+        const icon = item.icon;
+        if (item.day === condition){
+            iconSource.src = `./images/day/${icon}.png`;
+            console.log(item.icon);
+            return;
+        } else {
+            return;
+        }
+    })
+};
+
+
+
+// function tempToggleSwitchWatcher(){
+//     const tempToggleSwitch = document.querySelector('.switch');
+// }
+
 
 
 let tempToggle = 0;
-function tempCheck() {
+function tempChange() {
     if (tempToggle === 1){
         tempToggle = 0;
-        currentTemp.textContent = `Current temperature: ${tempC} C`;
-        feelsLike.textContent = `Feels like: ${feelsLikeC} C`;
+        currentTemp.textContent = `Current temperature: ${currentData.temp_c} C`;
+        feelsLike.textContent = `Feels like: ${currentData.feelslike_c} C`;
+        setCardTempsC();
         return;
     }
     tempToggle = 1;
-    currentTemp.textContent = `Current temperature: ${tempF} F`;
-    feelsLike.textContent = `Feels like: ${feelsLikeF} F`;
-}
+    currentTemp.textContent = `Current temperature: ${currentData.temp_f} F`;
+    feelsLike.textContent = `Feels like: ${currentData.feelslike_f} F`;
+    setCardTempsF();
+};
