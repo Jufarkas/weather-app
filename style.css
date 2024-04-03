@@ -6,28 +6,70 @@ body {
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
+    background-color: #dbeafe;
+}
+
+#map {
+    height: 240px;
+    width: 400px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px 2px black;
 }
 
 .master-container {
+    background: #3b82f6;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.input-container {
-    margin: 20px 0;
-    width: 300px;
+.currentTempContainer {
+    margin: 15px 0 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 30px;
+}
+
+#weatherIcon {
+    height: 105px;
+    width: 105px;
+}
+
+#city {
+    color: white;
+    word-spacing: 5px;
+    letter-spacing: 4px;
+}
+
+#region {
+    font-size: 0.8em;
+    color: white;
+    word-spacing: 5px;
+    letter-spacing: 4px;
+    font-weight: 300;
+}
+
+#country {
+    color: white;
+    word-spacing: 5px;
+    letter-spacing: 4px;
+}
+
+.inputContainer {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .cityInfo {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
+    font-size: 1.3em;
+    text-align: center;
+    flex-direction: column;
 }
 
 .cityInfo * {
@@ -40,31 +82,41 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    color: white;
+    font-weight: 300;
 }
 
 input {
-    height: 41px;
-    font-size: 1.3em;
+    height: 50px;
+    font-size: 1.8em;
     border: 1px solid black;
     border-radius: 10px;
+    width: 288px;
+    padding: 5px;
+    text-align: center;
 }
 
 button {
     margin-top: 5px;
-    margin-bottom: 20px;
-    height: 45px;
+    height: 60px;
     font-size: 1.3em;
-    border: 1px solid blue;
+    width: 300px;
     cursor: pointer;
+    border: 2px solid #1d4ed8;
     border-radius: 10px;
+    background-color: #bae6fd;
+    box-shadow: 0px 1px 2px black;
+    color: #000000;
 }
 
 button:hover{
-    background-color: rgb(144, 255, 255);
+    background-color: rgb(228, 240, 255);
+    box-shadow: 0px 2px 3px 1px black;
 }
 
 button:active {
-    background-color: rgb(197, 255, 236);
+    background-color: #bae6fd;
+    box-shadow: inset 0px 2px 4px 1px black;
 }
 
 .hidden {
@@ -129,11 +181,24 @@ input:checked + .tempSlider:before {
     transform: translateX(40px);
 }
 
-.card-container {
+.cardContainer {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     gap: 20px;
+    margin-bottom: 20px;
+}
+
+.cardHeader {
+    color: white;
+    text-shadow: 0px 1px 5px black;
+    width: 100%;
+    text-align: center;
+    background: #1e40af;
+    height: 40px;
+    margin: 05px;
+    padding: 5px 0;
 }
 
 .card {
@@ -142,44 +207,62 @@ input:checked + .tempSlider:before {
     background-color: #2196F3;
     display: grid;
     grid-template: 1fr 2fr 1fr 2fr 1fr / 1fr 1fr;
+    border: 2px solid black;
+    border-radius: 5px;
+    box-shadow: 0px 4px 9px 3px black;
 }
 
 
 .footer {
-    margin-top: 10px;
+    margin-top: 5px;
     display: grid;
     grid-template: 1fr / 1fr 1fr;
-    width: 260px;
     align-items: center;
-    justify-items: center;
+    column-gap: 20px;
 }
 
 .footer p {
-    text-align: center;
+    text-align: end;
 }
 
 .cardDate {
     grid-area: 1 / 1 / 2 / 3;
-    font-size: 1.2em;
+    font-size: 1.7em;
     margin: 5px 0;
     align-self: center;
     justify-self: center;
-    text-decoration: underline;
+    color: white;
+    letter-spacing: 2px;
+    text-shadow: 0px 1px 5px black;
 }
 
 .cardTempMax {
     grid-area: 2 / 2 / 3 / 3;
-    align-self: center;
-    justify-self: center;
     font-size: 2.2em;
+    width: 100%;
+    height: 100%;
+    border-top: 2px solid black;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    color: white;
+    text-shadow: 0px 1px 5px black;
 }
 
 .cardTempMin {
     margin: 0;
     grid-area: 3 / 2 / 4 / 3;
     align-self: center;
-    justify-self: center;
     font-size: 1.2em;
+    width: 100%;
+    text-align: center;
+    border-bottom: 2px solid black;
+    height: 100%;
+    padding-bottom: 5px;
+    color: white;
+    text-shadow: 0px 1px 5px black;
 }
 
 .cardIcon {
@@ -187,18 +270,27 @@ input:checked + .tempSlider:before {
     height: 100%;
     align-self: center;
     justify-self: center;
+    border: 2px solid black;
+    border-bottom: none;
+    width: 100%;
 }
 
 .weatherCondition {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 5px;
     margin: 0;
     grid-area: 3 / 1 / 4 / 2;
     align-self: center;
-    justify-self: center;
     text-align: center;
     font-size: 1.4em;
     font-family: "Ropa Sans", sans-serif;
     font-weight: 400;
     font-style: italic;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    color: white;
+    text-shadow: 0px 1px 5px black;
 }
 
 .sunriseIcon {
@@ -212,6 +304,9 @@ input:checked + .tempSlider:before {
     margin: 0 0 0 12px;
     justify-self: flex-start;
     text-align: center;
+    padding-bottom: 5px;
+    color: white;
+    text-shadow: 0px 1px 5px black;
 }
 
 .sunset {
@@ -219,4 +314,17 @@ input:checked + .tempSlider:before {
     margin: 0 12px 0 0;
     justify-self: flex-end;
     text-align: center;
+    padding-bottom: 5px;
+    color: white;
+    text-shadow: 0px 1px 5px black;
+}
+
+.feelsLike {
+    font-size: 1.6em;
+    margin-top: 0;
+}
+
+.currentTemp {
+    font-size: 1.8em;
+    margin-top: 2px;
 }
