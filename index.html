@@ -7,30 +7,41 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ropa+Sans:ital@0;1&family=Rubik:ital,wght@0,300..900;1,300..900" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
     <script src="./script.js" defer></script>
     <title>Weather App</title>
 </head>
 <body>
     <div class="master-container">
-        <div class="input-container">
-            <input type="text" name="cityInput" id="cityInput" placeholder="Enter city name..">
-            <button class="searchButton" onclick="getWeather()">Weather please!</button>
-            <div class="cityInfo">
-                <h3 id="city">Vancouver</h3>
-                <h4 id="region">British Columbia</h4>
-                <h4 id="country">Canada</h4>
+        <div class="currentTempContainer">
+            <div class="inputContainer">
+                <input type="text" name="cityInput" id="cityInput" placeholder="Enter city name..">
+                <button class="searchButton" onclick="getWeather()">Weather me please!</button>
+            
+                <div class="weatherInfo">
+                    <img src="./images/day/302.png" id="weatherIcon">
+                    <p class="currentTemp">Current temperature: 9&deg; C</p>
+                    <p class="feelsLike">Feels like: 7.6&deg; C</p>
+                    <label class="switch hidden">
+                        <input id="tempToggle" type="checkbox" onchange="tempChange()">
+                        <span class="tempSlider">F C</span>
+                    </label>
+                </div>
             </div>
-            <div class="weatherInfo">
-                <img src="" id="weatherIcon">
-                <p class="currentTemp">Current temp: 11 C</p>
-                <p class="feelsLike">Feels like: 10 C</p>
-                <label class="switch">
-                    <input type="checkbox" onchange="tempChange()">
-                    <span class="tempSlider">F C</span>
-                  </label>
+            <div class="cityInfo">
+                <h3 id="city">London</h3>
+                <h4 id="region">City of London, Greater London</h4>
+                <h3 id="country">United Kingdom</h3>
+                <div id="map"></div>
             </div>
         </div>
-        <div class="card-container hidden">
+        <h1 class="cardHeader hidden">3 DAY FORECAST</h1>
+        <div class="cardContainer hidden">
             <div class="card" id="cardOne">
                 <h4 class="cardDate"></h4>
                 <img src="" alt="" class="cardIcon iconOne">
@@ -62,9 +73,9 @@
                 <p class="sunset"></p>
             </div>
         </div>
-        <div class="footer">
-            <p>Powered by <a href="https://www.weatherapi.com/" title="Free Weather API">WeatherAPI.com</a></p><a href="https://www.weatherapi.com/" title="Free Weather API"><img src='https://cdn.weatherapi.com/v4/images/weatherapi_logo.png' alt="Weather data by WeatherAPI.com"></a>
-        </div>
+    </div>
+    <div class="footer">
+        <p>Powered by <a href="https://www.weatherapi.com/" title="Free Weather API">WeatherAPI.com</a></p><a href="https://www.weatherapi.com/" title="Free Weather API"><img src='https://cdn.weatherapi.com/v4/images/weatherapi_logo.png' alt="Weather data by WeatherAPI.com"></a>
     </div>
 </body>
 </html>
