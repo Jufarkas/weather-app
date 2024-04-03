@@ -2,6 +2,7 @@ const currentTemp = document.querySelector('.currentTemp');
 const feelsLike = document.querySelector('.feelsLike');
 let forecast;
 let currentData;
+let currentLocation;
 
 async function getWeather(){
     const weatherAPI = "535e03dc848a467dacb175640242803";
@@ -13,40 +14,37 @@ async function getWeather(){
     weatherFetch.json()
     .then(data => {
         console.log(data)
-        let currentLocation = data.location;
+        currentLocation = data.location;
         forecast = data.forecast.forecastday;
         currentData = data.current;
-        populateMainDisplay(currentLocation);
+        populateMainDisplay();
         populateForecastCards();
-        // console.log(data.location.name)
-        // console.log(data.location.region)
-        // console.log(data.location.country)
-        // console.log(data.current.condition.icon)
-        // console.log(data.current.condition.text)
-        // console.log("current temp is " + data.current.temp_c + "C") // current temp in C
-        // console.log("feels like " + data.current.feelslike_c + "C") // 'feels like' in C
-        // console.log("current temp is " + data.current.temp_f + "F") // current temp in F
-        // console.log("feels like " + data.current.feelslike_f + "F") // 'feels like' in F
+        updateMap();
+        tempToggleSwitchWatcher();
     });
 };
 
-function populateMainDisplay(currentLocation){
+function populateMainDisplay(){
     const city = document.getElementById('city');
     const region = document.getElementById('region');
     const country = document.getElementById('country');
     const weatherIcon = document.getElementById('weatherIcon');
     const condition = currentData.condition.text.trim();
+    const tempToggleSwitch = document.querySelector('.switch');
+    tempToggleSwitch.classList.remove('hidden');
     city.textContent = currentLocation.name;
     region.textContent = currentLocation.region;
     country.textContent = currentLocation.country;
-    currentTemp.textContent = `Current temperature: ${currentData.temp_c} C`;
-    feelsLike.textContent = `Feels like: ${currentData.feelslike_c} C`;
+    currentTemp.textContent = `Current temperature: ${currentData.temp_c}\u00B0 c`;
+    feelsLike.textContent = `Feels like: ${currentData.feelslike_c}\u00B0 c`;
     getMainIcon(condition, weatherIcon);
 };
 
 function populateForecastCards(){
-    const cardContainer = document.querySelector('.card-container');
+    const cardContainer = document.querySelector('.cardContainer');
     cardContainer.classList.remove('hidden');
+    const cardContainerHeader = document.querySelector('.cardHeader');
+    cardContainerHeader.classList.remove('hidden');
     setCardIcons();
     setCardTempsC();
     setCardDates();
@@ -70,7 +68,7 @@ function setCardTempsC() {
     const cardTempMax = document.querySelectorAll('.cardTempMax');
     cardTempMax.forEach(maxTemp => {
         const maxTempC = forecast[maxTempCounterC].day.maxtemp_c;
-        maxTemp.textContent = `${maxTempC} \u00B0 c`; // '\u00B0' creates the degree symbol
+        maxTemp.textContent = `${maxTempC}\u00B0 c`; // '\u00B0' creates the degree symbol
         maxTempCounterC++;
     })
 
@@ -78,7 +76,7 @@ function setCardTempsC() {
     const cardTempMin = document.querySelectorAll('.cardTempMin');
     cardTempMin.forEach(minTemp => {
         const minTempC = forecast[minTempCounterC].day.mintemp_c;
-        minTemp.textContent = `Low: ${minTempC} \u00B0 c`;
+        minTemp.textContent = `Low: ${minTempC}\u00B0 c`;
         minTempCounterC++;
     })
 };
@@ -88,7 +86,7 @@ function setCardTempsF(){
     const cardTemp = document.querySelectorAll('.cardTempMax');
     cardTemp.forEach(temp => {
         const maxTempF = forecast[maxTempCounterF].day.maxtemp_f;
-        temp.textContent = `${maxTempF} \u00B0 f`; // '\u00B0' creates the degree symbol
+        temp.textContent = `${maxTempF}\u00B0 f`; // '\u00B0' creates the degree symbol
         maxTempCounterF++;
     })
 
@@ -96,7 +94,7 @@ function setCardTempsF(){
     const cardTempMin = document.querySelectorAll('.cardTempMin');
     cardTempMin.forEach(minTemp => {
         const minTempF = forecast[minTempCounterF].day.mintemp_f;
-        minTemp.textContent = `Low: ${minTempF} \u00B0 f`;
+        minTemp.textContent = `Low: ${minTempF}\u00B0 f`;
         minTempCounterF++;
     })
 };
@@ -158,6 +156,12 @@ const weatherConditions = [
         "code" : 1003,
         "day" : "Partly cloudy",
         "night" : "Partly cloudy",
+        "icon" : 116
+    },
+    {
+        "code" : 1003,
+        "day" : "Partly Cloudy",
+        "night" : "Partly Cloudy",
         "icon" : 116
     },
     {
@@ -466,25 +470,42 @@ function getForecastIcons(condition, iconSource) {
     })
 };
 
-
-
-// function tempToggleSwitchWatcher(){
-//     const tempToggleSwitch = document.querySelector('.switch');
-// }
-
-
-
 let tempToggle = 0;
+function tempToggleSwitchWatcher(){
+    const tempToggleSwitch = document.getElementById('tempToggle');
+    if (tempToggleSwitch.checked === true){
+        tempToggle = 1;
+        currentTemp.textContent = `Current temperature: ${currentData.temp_f}\u00B0 f`;
+        feelsLike.textContent = `Feels like: ${currentData.feelslike_f}\u00B0 f`;
+    setCardTempsF();
+    } else {
+        return;
+    }
+}
+
 function tempChange() {
     if (tempToggle === 1){
         tempToggle = 0;
-        currentTemp.textContent = `Current temperature: ${currentData.temp_c} C`;
-        feelsLike.textContent = `Feels like: ${currentData.feelslike_c} C`;
+        currentTemp.textContent = `Current temperature: ${currentData.temp_c}\u00B0 c`;
+        feelsLike.textContent = `Feels like: ${currentData.feelslike_c}\u00B0 c`;
         setCardTempsC();
         return;
     }
     tempToggle = 1;
-    currentTemp.textContent = `Current temperature: ${currentData.temp_f} F`;
-    feelsLike.textContent = `Feels like: ${currentData.feelslike_f} F`;
+    currentTemp.textContent = `Current temperature: ${currentData.temp_f}\u00B0 f`;
+    feelsLike.textContent = `Feels like: ${currentData.feelslike_f}\u00B0 f`;
     setCardTempsF();
 };
+
+// below creates map, credit to https://leafletjs.com/examples/quick-start/
+let map = L.map('map').setView([51.515, -0.09], 13);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+function updateMap() {
+    let lat = currentLocation.lat + .010;
+    let long = currentLocation.lon;
+    map.setView(new L.LatLng(lat, long), 13).setZoom(11);
+}
