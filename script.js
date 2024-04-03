@@ -1,12 +1,18 @@
 const currentTemp = document.querySelector('.currentTemp');
 const feelsLike = document.querySelector('.feelsLike');
+const cityInput = document.getElementById('cityInput');
 let forecast;
 let currentData;
 let currentLocation;
 
+cityInput.addEventListener('keypress' , (e) => {
+    if(e.key === "Enter"){
+        getWeather();
+    }
+});
+
 async function getWeather(){
     const weatherAPI = "535e03dc848a467dacb175640242803";
-    const cityInput = document.getElementById('cityInput');
     const weatherFetch = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${weatherAPI}&q=${cityInput.value}&days=4`, {
         mode: 'cors'
     }) // grabs 3 days worth of weather (currently set to 4 days, as the first day it grabs is the current date, not sure if after the extended trail is over this will stop and it technically only does 2 days in advance)
