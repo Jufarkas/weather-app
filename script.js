@@ -13,9 +13,9 @@ cityInput.addEventListener('keypress' , (e) => {
 
 async function getWeather(){
     const weatherAPI = "535e03dc848a467dacb175640242803";
-    const weatherFetch = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${weatherAPI}&q=${cityInput.value}&days=4`, {
+    const weatherFetch = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${weatherAPI}&q=${cityInput.value}&days=3`, {
         mode: 'cors'
-    }) // grabs 3 days worth of weather (currently set to 4 days, as the first day it grabs is the current date, not sure if after the extended trail is over this will stop and it technically only does 2 days in advance)
+    })
     
     weatherFetch.json()
     .then(data => {
@@ -60,7 +60,7 @@ function populateForecastCards(){
 };
 
 function setCardIcons(){
-    let iconCounter = 1;
+    let iconCounter = 0;
     const cardIcons = document.querySelectorAll('.cardIcon');
     cardIcons.forEach(icon => {
         const iconCondition = forecast[iconCounter].day.condition.text.trim();
@@ -70,7 +70,7 @@ function setCardIcons(){
 };
 
 function setCardTempsC() {
-    let maxTempCounterC = 1;
+    let maxTempCounterC = 0;
     const cardTempMax = document.querySelectorAll('.cardTempMax');
     cardTempMax.forEach(maxTemp => {
         const maxTempC = forecast[maxTempCounterC].day.maxtemp_c;
@@ -78,7 +78,7 @@ function setCardTempsC() {
         maxTempCounterC++;
     })
 
-    let minTempCounterC = 1;
+    let minTempCounterC = 0;
     const cardTempMin = document.querySelectorAll('.cardTempMin');
     cardTempMin.forEach(minTemp => {
         const minTempC = forecast[minTempCounterC].day.mintemp_c;
@@ -88,7 +88,7 @@ function setCardTempsC() {
 };
 
 function setCardTempsF(){
-    let maxTempCounterF = 1;
+    let maxTempCounterF = 0;
     const cardTemp = document.querySelectorAll('.cardTempMax');
     cardTemp.forEach(temp => {
         const maxTempF = forecast[maxTempCounterF].day.maxtemp_f;
@@ -96,7 +96,7 @@ function setCardTempsF(){
         maxTempCounterF++;
     })
 
-    let minTempCounterF = 1;
+    let minTempCounterF = 0;
     const cardTempMin = document.querySelectorAll('.cardTempMin');
     cardTempMin.forEach(minTemp => {
         const minTempF = forecast[minTempCounterF].day.mintemp_f;
@@ -106,7 +106,7 @@ function setCardTempsF(){
 };
 
 function setCardDates() {
-    let dateCounter = 1;
+    let dateCounter = 0;
     const cardDate = document.querySelectorAll('.cardDate');
     cardDate.forEach(date => {
         const forecastDate = forecast[dateCounter].date;
@@ -116,7 +116,7 @@ function setCardDates() {
 };
 
 function setCardCondition(){
-    let conditionCounter = 1;
+    let conditionCounter = 0;
     const cardCondition = document.querySelectorAll('.weatherCondition');
     cardCondition.forEach(weatherDescription => {
         const weatherCondition = forecast[conditionCounter].day.condition.text.trim();
@@ -126,7 +126,7 @@ function setCardCondition(){
 };
 
 function setSunrise(){
-    let sunriseCounter = 1;
+    let sunriseCounter = 0;
     const sunriseField = document.querySelectorAll('.sunrise');
     sunriseField.forEach(field => {
         const sunriseTime = forecast[sunriseCounter].astro.sunrise;
@@ -138,7 +138,7 @@ function setSunrise(){
 };
 
 function setSunset(){
-    let sunsetCounter = 1;
+    let sunsetCounter = 0;
     const sunsetField = document.querySelectorAll('.sunset');
     sunsetField.forEach(field => {
         const sunsetTime = forecast[sunsetCounter].astro.sunset;
